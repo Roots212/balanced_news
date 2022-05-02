@@ -10,6 +10,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEvent>((event, emit) {});
     on<LoginWithGooglePressed>(_mapLoginWithGooglePressedToState);
     on<LoginWithCredentialsPressed>(_mapLoginWithCredentialsPressedToState);
+    on<SendEmailForLogin>(_mapSendEmailForLoginState);
+        on<SigninWithEmail>(_mapSigninWithEmailState);
   }
   UserRepository userRepository = UserRepository();
 
@@ -26,6 +28,32 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       print(e);
       emit.isDone ? emit(LoginFail()) : print('wait');
     }
+  }
+    _mapSendEmailForLoginState(
+      SendEmailForLogin event, Emitter<LoginState> emit) async {
+    emit(LoginInProgress());
+    try{
+      await userRepository.sendEmailLink(email: event.email).then((value) {
+        emit(LoginEmailSent(email: event.email));
+      });
+    }catch(_){
+      emit(LoginFail());
+    }
+
+
+  }
+      _mapSigninWithEmailState(
+      SigninWithEmail event, Emitter<LoginState> emit) async {
+    emit(LoginInProgress());
+    try{
+      await userRepository.signupWithEmail(email: event.email,link: event.link).then((value) {
+        emit(LoginSuccess(imgurl: 'https://i2.wp.com/ui-avatars.com/api//Balanced%20News/128?ssl=1',username: event.email));
+      });
+    }catch(_){
+      emit(LoginFail());
+    }
+
+
   }
 
   _mapLoginWithCredentialsPressedToState(LoginWithCredentialsPressed event,

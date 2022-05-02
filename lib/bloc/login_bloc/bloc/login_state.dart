@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 part of 'login_bloc.dart';
 
 abstract class LoginState extends Equatable {
@@ -19,3 +21,8 @@ class LoginSuccess extends LoginState {
 }
 
 class LoginFail extends LoginState {}
+class LoginEmailSent extends LoginState {
+  final String email;
+
+  LoginEmailSent({required this.email});
+}

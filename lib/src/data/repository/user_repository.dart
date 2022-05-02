@@ -31,6 +31,19 @@ class UserRepository {
       password: password,
     );
   }
+  Future<UserCredential> signupWithEmail(
+      {required String email, required String link}) async {
+    return await _firebaseAuth!.signInWithEmailLink(email: email, emailLink: link);
+  }
+    Future<void> sendEmailLink(
+      {required String email}) async {
+return _firebaseAuth!.sendSignInLinkToEmail(email: email, actionCodeSettings: ActionCodeSettings(
+   url: 'https://balancednewsauth.page.link/',
+    handleCodeInApp: true,
+    androidPackageName: 'com.example.balanced_news',
+    androidMinimumVersion: "1",
+  ));
+  }
 
   Future<Future<List<void>>> signOut() async { 
     return Future.wait([

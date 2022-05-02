@@ -34,6 +34,7 @@ class _NewsHomeScreenState extends State<NewsHomeScreen> {
         ? BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state is Unauthenticated) {
+                print('here');
                 Navigator.pushAndRemoveUntil(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return SignInScreen(

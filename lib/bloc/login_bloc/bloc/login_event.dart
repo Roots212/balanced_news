@@ -29,6 +29,21 @@ class LoginWithGooglePressed extends LoginEvent {
   @override
   String toString() => 'LoginWithGooglePressed';
 }
+class SendEmailForLogin extends LoginEvent {
+  final String email;
+
+  SendEmailForLogin({required this.email});
+  @override
+  String toString() => 'LoginWithGooglePressed';
+}
+class SigninWithEmail extends LoginEvent {
+  final String email;
+  final String link;
+
+  SigninWithEmail({required this.email,required this.link});
+  @override
+  String toString() => 'LoginWithGooglePressed';
+}
 
 class LoginWithCredentialsPressed extends LoginEvent {
   final String email;
