@@ -11,7 +11,6 @@ class UserRepository {
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignin ?? GoogleSignIn();
 
-
   Future<User> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await _googleSignIn!.signIn();
     final GoogleSignInAuthentication googleAuth =
@@ -31,21 +30,25 @@ class UserRepository {
       password: password,
     );
   }
+
   Future<UserCredential> signupWithEmail(
       {required String email, required String link}) async {
-    return await _firebaseAuth!.signInWithEmailLink(email: email, emailLink: link);
-  }
-    Future<void> sendEmailLink(
-      {required String email}) async {
-return _firebaseAuth!.sendSignInLinkToEmail(email: email, actionCodeSettings: ActionCodeSettings(
-   url: 'https://balancednewsauth.page.link/',
-    handleCodeInApp: true,
-    androidPackageName: 'com.example.balanced_news',
-    androidMinimumVersion: "1",
-  ));
+    return await _firebaseAuth!
+        .signInWithEmailLink(email: email, emailLink: link);
   }
 
-  Future<Future<List<void>>> signOut() async { 
+  Future<void> sendEmailLink({required String email}) async {
+    return _firebaseAuth!.sendSignInLinkToEmail(
+        email: email,
+        actionCodeSettings: ActionCodeSettings(
+          url: 'https://balancednewsauth.page.link/',
+          handleCodeInApp: true,
+          androidPackageName: 'com.example.balanced_news',
+          androidMinimumVersion: "1",
+        ));
+  }
+
+  Future<Future<List<void>>> signOut() async {
     return Future.wait([
       _firebaseAuth!.signOut(),
       _googleSignIn!.signOut(),
@@ -54,13 +57,17 @@ return _firebaseAuth!.sendSignInLinkToEmail(email: email, actionCodeSettings: Ac
 
   Future<bool> isSignedIn() async {
     final currentUser = _firebaseAuth!.currentUser;
+    print('here');
+    print(currentUser?.email);
     return currentUser != null;
   }
 
   Future<String> getUser() async {
     return _firebaseAuth!.currentUser!.email!;
   }
-    Future<String> getUserPhoto() async {
-    return _firebaseAuth!.currentUser!.photoURL!;
+
+  Future<String> getUserPhoto(String email) async {
+    return _firebaseAuth!.currentUser!.photoURL ??
+        'https://ui-avatars.com/api/?name=$email';
   }
 }

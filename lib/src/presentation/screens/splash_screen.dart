@@ -22,10 +22,16 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   UserRepository userRepository = UserRepository();
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizerUtil().toString();
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
+        print(state);
         if (state is Authenticated) {
           Future.delayed(const Duration(milliseconds: 200)).then((value) {
             Navigator.pushReplacement(
@@ -33,7 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 MaterialPageRoute(
                     builder: ((context) => BlocProvider<GetnewscubitCubit>(
                           create: (context) => GetnewscubitCubit('general'),
-                          child: NewsHomeScreen(imgurl: state.imgUrl,username: state.displayName,),
+                          child: NewsHomeScreen(
+                            imgurl: state.imgUrl,
+                            username: state.displayName,
+                          ),
                         ))));
           });
         } else if (state is Unauthenticated) {

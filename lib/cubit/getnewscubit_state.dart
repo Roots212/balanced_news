@@ -11,5 +11,7 @@ class GetnewscubitLoaded extends GetnewscubitState {
 
   GetnewscubitLoaded(this.newsModel);
 }
+
 class GetnewscubitError extends GetnewscubitState {}
+
 class GetnewscubitEmpty extends GetnewscubitState {}

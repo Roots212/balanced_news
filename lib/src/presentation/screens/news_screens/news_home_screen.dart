@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:balanced_news/bloc/auth_bloc/authentication_bloc.dart';
+import 'package:balanced_news/cubit/getnewscubit_cubit.dart';
 import 'package:balanced_news/src/data/repository/user_repository.dart';
 import 'package:balanced_news/src/presentation/screens/auth/sign_in_screen.dart';
+import 'package:balanced_news/src/presentation/screens/news_screens/analytics_page.dart';
 import 'package:balanced_news/src/presentation/utils/colors.dart';
 import 'package:balanced_news/src/presentation/screens/news_screens/news_screen.dart';
 import 'package:balanced_news/src/presentation/screens/news_screens/search_news_screen.dart';
@@ -77,6 +79,10 @@ class _NewsHomeScreenState extends State<NewsHomeScreen> {
                           text: 'Home',
                         ),
                         GButton(
+                          icon: Icons.analytics_rounded,
+                          text: 'Analytics',
+                        ),
+                        GButton(
                           icon: Icons.search_rounded,
                           text: 'Search',
                         ),
@@ -100,6 +106,10 @@ class _NewsHomeScreenState extends State<NewsHomeScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     children: [
                       NewsScreen(),
+                      BlocProvider(
+                        create: (context) => GetnewscubitCubit('genereal'),
+                        child: AnalyticsPage(),
+                      ),
                       SearchNewsScreen(),
                     ],
                   ),

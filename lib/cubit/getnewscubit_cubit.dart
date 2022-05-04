@@ -1,4 +1,5 @@
 import 'package:balanced_news/src/data/models/news_model.dart';
+import 'package:balanced_news/src/data/models/wikipedia_model.dart';
 import 'package:balanced_news/src/data/repository/posts_repository.dart';
 import 'package:balanced_news/src/data/services/network_service.dart';
 import 'package:bloc/bloc.dart';
@@ -24,6 +25,4 @@ class GetnewscubitCubit extends Cubit<GetnewscubitState> {
       emit(GetnewscubitLoaded(value!));
     });
   }
-
-
 }

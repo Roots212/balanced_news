@@ -12,7 +12,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({required this.userRepository})
       : super(AuthenticationInitial()) {
-    on<AuthenticationEvent>(_mapAppStartedToState);
+    on<AppStarted>(_mapAppStartedToState);
     on<LoggedIn>(_mapLoggedInToState);
     on<LoggedOut>(_mapLoggedOutToState);
   }
@@ -20,12 +20,14 @@ class AuthenticationBloc
 
   Future<void> _mapAppStartedToState(AuthenticationEvent authenticationEvent,
       Emitter<AuthenticationState> emit) async {
+    print('in App Statred');
     try {
       final isSignedIn = await userRepository.isSignedIn();
       if (isSignedIn) {
+        print(isSignedIn);
         final name = await userRepository.getUser();
-        final photoUrl = await userRepository.getUserPhoto();
-        emit(Authenticated(displayName: name,imgUrl: photoUrl));
+        final photoUrl = await userRepository.getUserPhoto(name);
+        emit(Authenticated(displayName: name, imgUrl: photoUrl));
       } else {
         emit(Unauthenticated());
       }
@@ -36,9 +38,9 @@ class AuthenticationBloc
 
   Future<void> _mapLoggedInToState(
       LoggedIn authenticationEvent, Emitter<AuthenticationState> emit) async {
-    emit(Authenticated(
-        displayName: await userRepository.getUser(),
-        imgUrl: await userRepository.getUserPhoto()));
+    final name = await userRepository.getUser();
+    final photoUrl = await userRepository.getUserPhoto(name);
+    emit(Authenticated(displayName: name, imgUrl: photoUrl));
   }
 
   Future<void> _mapLoggedOutToState(

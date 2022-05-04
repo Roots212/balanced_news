@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_const_constructors
 
 import 'package:balanced_news/bloc/login_bloc/bloc/login_bloc.dart';
 import 'package:balanced_news/cubit/getnewscubit_cubit.dart';
@@ -24,31 +24,27 @@ class SignInScreen extends StatefulWidget {
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
-
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
-void didChangeAppLifecycleState(AppLifecycleState state) async {
-   if (state == AppLifecycleState.resumed) {
-         
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {}
   }
 
-}
-@override
+  @override
   void initState() {
-    
-  FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-      BlocProvider.of<LoginBloc>(context).add(
-                                SigninWithEmail(
-                                  link: dynamicLinkData.link.toString(),
-                                    email: _emailController.text));
-}).onError((error) {
-  // Handle errors
-});    super.initState();
+    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      BlocProvider.of<LoginBloc>(context).add(SigninWithEmail(
+          link: dynamicLinkData.link.toString(), email: _emailController.text));
+    }).onError((error) {
+      // Handle errors
+    });
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     SizerUtil().toString();
@@ -120,44 +116,50 @@ void didChangeAppLifecycleState(AppLifecycleState state) async {
                   // ignore: prefer_const_constructors
                   suffixIcon: BlocConsumer<LoginBloc, LoginState>(
                     listener: (context, state) {
-                      if(state is LoginEmailSent){
-                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Email sent on ${state.email}')));
+                      if (state is LoginEmailSent) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Email sent on ${state.email}')));
                       }
                     },
                     builder: (context, state) {
-             if(state is LoginInProgress){
-              // ignore: prefer_const_constructors
-              return CircularProgressIndicator(
-                 color: Colors.white,
-               );
-             }else{
-                        return InkWell(
-                        onTap: () {
-                          if (Validators.isValidEmail(_emailController.text)) {
-                            print('valid');
-                            BlocProvider.of<LoginBloc>(context).add(
-                                SendEmailForLogin(
-                                    email: _emailController.text));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                backgroundColor: Colors.red,
-                                content: Text('Email not in correct format')));
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(1.0.w),
-                          decoration: BoxDecoration(
+                      if (state is LoginInProgress) {
+                        // ignore: prefer_const_constructors
+                        return Padding(
+                          padding: EdgeInsets.all(2.0.w),
+                          child: CircularProgressIndicator(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(5.0.sp),
                           ),
-                          child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: CustomColors.backGroundColor,
+                        );
+                      } else {
+                        return InkWell(
+                          onTap: () {
+                            if (Validators.isValidEmail(
+                                _emailController.text)) {
+                              print('valid');
+                              BlocProvider.of<LoginBloc>(context).add(
+                                  SendEmailForLogin(
+                                      email: _emailController.text));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content:
+                                          Text('Email not in correct format')));
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(1.0.w),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5.0.sp),
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: CustomColors.backGroundColor,
+                            ),
                           ),
-                        ),
-                      );
-             }
+                        );
+                      }
                     },
                   ),
 
@@ -205,7 +207,12 @@ void didChangeAppLifecycleState(AppLifecycleState state) async {
               },
               builder: (context, state) {
                 if (state is LoginInProgress) {
-                  return const CircularProgressIndicator();
+                  return Padding(
+                    padding: EdgeInsets.all(2.0.w),
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  );
                 } else {
                   return RawMaterialButton(
                     constraints: BoxConstraints(maxWidth: 50.0.w),

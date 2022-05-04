@@ -1,5 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:balanced_news/src/data/models/news_model.dart';
 import 'package:balanced_news/src/presentation/screens/news_screens/news_detailScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -9,15 +13,32 @@ class NewsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _fireStore = FirebaseFirestore.instance;
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     SizerUtil().toString();
-    return SizedBox(
-      height: 100.0.h,
-      width: 100.0.w,
+    return Expanded(
       child: ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return InkWell(
-              onTap: () {
+              onTap: () async {
+                List articles = [];
+                try {
+                  DocumentSnapshot value = await _fireStore
+                      .collection(_firebaseAuth.currentUser!.uid)
+                      .doc(newsModel.articles![index].source!.name!)
+                      .get();
+                  articles = List.from(value['url']);
+                } catch (e) {}
+
+                articles.add(newsModel.articles![index].url!);
+
+                _fireStore
+                    .collection(_firebaseAuth.currentUser!.uid)
+                    .doc(newsModel.articles![index].source!.name!)
+                    .set({
+                  'url': FieldValue.arrayUnion(articles),
+                });
                 Navigator.push(
                     context,
                     MaterialPageRoute(

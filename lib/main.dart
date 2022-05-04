@@ -1,5 +1,6 @@
 import 'package:balanced_news/bloc/auth_bloc/authentication_bloc.dart';
 import 'package:balanced_news/bloc/login_bloc/bloc/login_bloc.dart';
+import 'package:balanced_news/cubit/org_data/orgdata_cubit.dart';
 import 'package:balanced_news/cubit/search/searchnews_cubit.dart';
 import 'package:balanced_news/src/presentation/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,15 +25,16 @@ class AppState extends StatefulWidget {
   State<AppState> createState() => _AppStateState();
 }
 
-
 class _AppStateState extends State<AppState> {
   final UserRepository _userRepository = UserRepository();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-                BlocProvider<SearchnewsCubit>(create: (BuildContext context) => SearchnewsCubit()),
-
+        BlocProvider<OrgdataCubit>(
+            create: (BuildContext context) => OrgdataCubit()),
+        BlocProvider<SearchnewsCubit>(
+            create: (BuildContext context) => SearchnewsCubit()),
         BlocProvider<LoginBloc>(create: (BuildContext context) => LoginBloc()),
         BlocProvider<AuthenticationBloc>(
             create: (BuildContext context) =>
