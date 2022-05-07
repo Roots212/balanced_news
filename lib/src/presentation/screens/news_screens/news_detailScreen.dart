@@ -7,8 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:html' as html;
-
 class NewsDetailPage extends StatefulWidget {
   final String content;
   final String title;
@@ -49,7 +47,6 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           backgroundColor: CustomColors.activeColor,
           onPressed: kIsWeb
               ? () {
-                  html.window.open(widget.url, "_blank");
                 }
               : () {
                   showModalBottomSheet(
