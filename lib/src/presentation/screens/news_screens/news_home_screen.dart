@@ -2,7 +2,6 @@
 
 import 'package:balanced_news/bloc/auth_bloc/authentication_bloc.dart';
 import 'package:balanced_news/cubit/getnewscubit_cubit.dart';
-import 'package:balanced_news/src/data/repository/user_repository.dart';
 import 'package:balanced_news/src/presentation/screens/auth/sign_in_screen.dart';
 import 'package:balanced_news/src/presentation/screens/news_screens/analytics_page.dart';
 import 'package:balanced_news/src/presentation/utils/colors.dart';
@@ -33,157 +32,151 @@ class _NewsHomeScreenState extends State<NewsHomeScreen> {
   Widget build(BuildContext context) {
     SizerUtil().toString();
     return SizerUtil.deviceType == DeviceType.mobile
-        ? BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-              if (state is Unauthenticated) {
-                print('here');
-                Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return SignInScreen(
-                    userRepository: UserRepository(),
-                  );
-                }), (route) => false);
-              }
-            },
-            child: SafeArea(
-              child: Scaffold(
-                backgroundColor: CustomColors.backGroundColor,
-                bottomNavigationBar: Container(
-                  decoration: BoxDecoration(
-                    color: CustomColors.secondarybackGroundColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0.sp)),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 20,
-                        color: Colors.white.withOpacity(0.2),
-                      )
+        ? SafeArea(
+            child: Scaffold(
+              backgroundColor: CustomColors.backGroundColor,
+              bottomNavigationBar: Container(
+                decoration: BoxDecoration(
+                  color: CustomColors.secondarybackGroundColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0.sp)),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 20,
+                      color: Colors.white.withOpacity(0.2),
+                    )
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(1.0.w),
+                  child: GNav(
+                    rippleColor: Colors.grey[300]!,
+                    hoverColor: Colors.grey[100]!,
+                    gap: 8,
+                    activeColor: CustomColors.activeColor,
+                    iconSize: 15.0.sp,
+                    color: CustomColors.activeColor,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    duration: Duration(milliseconds: 400),
+                    textStyle: TextStyle(color: CustomColors.activeColor),
+                    tabBackgroundColor: CustomColors.tabBackGroundColor,
+                    tabs: [
+                      GButton(
+                        icon: Icons.home_rounded,
+                        text: 'Home',
+                      ),
+                      GButton(
+                        icon: Icons.analytics_rounded,
+                        text: 'Analytics',
+                      ),
+                      GButton(
+                        icon: Icons.search_rounded,
+                        text: 'Search',
+                      ),
                     ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(1.0.w),
-                    child: GNav(
-                      rippleColor: Colors.grey[300]!,
-                      hoverColor: Colors.grey[100]!,
-                      gap: 8,
-                      activeColor: CustomColors.activeColor,
-                      iconSize: 15.0.sp,
-                      color: CustomColors.activeColor,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      duration: Duration(milliseconds: 400),
-                      textStyle: TextStyle(color: CustomColors.activeColor),
-                      tabBackgroundColor: CustomColors.tabBackGroundColor,
-                      tabs: [
-                        GButton(
-                          icon: Icons.home_rounded,
-                          text: 'Home',
-                        ),
-                        GButton(
-                          icon: Icons.analytics_rounded,
-                          text: 'Analytics',
-                        ),
-                        GButton(
-                          icon: Icons.search_rounded,
-                          text: 'Search',
-                        ),
-                      ],
-                      onTabChange: (index) {
-                        setState(() {
-                          _selectedIndex = index;
-                          pageController.animateToPage(_selectedIndex,
-                              duration: Duration(milliseconds: 400),
-                              curve: Curves.easeIn);
-                        });
-                      },
-                      selectedIndex: _selectedIndex,
-                    ),
+                    onTabChange: (index) {
+                      setState(() {
+                        _selectedIndex = index;
+                        pageController.animateToPage(_selectedIndex,
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.easeIn);
+                      });
+                    },
+                    selectedIndex: _selectedIndex,
                   ),
                 ),
-                body: NestedScrollView(
-                  body: PageView(
-                    controller: pageController,
-                    pageSnapping: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: [
-                      NewsScreen(),
-                      BlocProvider(
-                        create: (context) => GetnewscubitCubit('genereal'),
-                        child: AnalyticsPage(),
-                      ),
-                      SearchNewsScreen(),
-                    ],
-                  ),
-                  headerSliverBuilder:
-                      (BuildContext context, bool innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        centerTitle: false,
-                        actions: [
-                          SizedBox(
-                            width: 50.0.w,
+              ),
+              body: NestedScrollView(
+                body: PageView(
+                  controller: pageController,
+                  pageSnapping: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    NewsScreen(),
+                    BlocProvider(
+                      create: (context) => GetnewscubitCubit('genereal'),
+                      child: AnalyticsPage(),
+                    ),
+                    SearchNewsScreen(),
+                  ],
+                ),
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      centerTitle: false,
+                      actions: [
+                        SizedBox(
+                          width: 50.0.w,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(1.0.w),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.0.sp),
+                            child: Image.network(widget.imgurl),
                           ),
-                          PopupMenuButton(
-                            itemBuilder: (BuildContext context) {
-                              return [
-                                PopupMenuItem(
-                                  child: Text('Logout'),
+                        )
+                      ],
+                      floating: true,
+                      backgroundColor: CustomColors.backGroundColor,
+                      snap: false,
+                      bottom: PreferredSize(
+                          preferredSize: Size(100.0.w, 5.0.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 3.5.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Welcome back, ',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0.sp),
+                                    ),
+                                    Text(
+                                      widget.username.split('@')[0],
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 12.0.sp),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(1.0.w),
+                                child: InkWell(
                                   onTap: () {
                                     BlocProvider.of<AuthenticationBloc>(context)
                                         .add(LoggedOut());
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) =>
+                                                SignInScreen())));
                                   },
-                                )
-                              ];
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(1.0.w),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100.0.sp),
-                                child: Image.network(widget.imgurl),
-                              ),
-                            ),
-                          )
-                        ],
-                        floating: true,
-                        backgroundColor: CustomColors.backGroundColor,
-                        snap: false,
-                        bottom: PreferredSize(
-                            preferredSize: Size(100.0.w, 5.0.h),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 3.5.w),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Welcome back, ',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12.0.sp),
-                                      ),
-                                      Text(
-                                        widget.username.split('@')[0],
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 12.0.sp),
-                                      )
-                                    ],
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                        color: CustomColors.activeColor,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 12.0.sp),
                                   ),
                                 ),
-                              ],
-                            )),
-                        title: TitleWidget(
-                          padding: EdgeInsets.fromLTRB(2.0.w, 0.0, 1.0.w, 0.0),
-                          fontsize: 10.0.sp,
-                        ),
-                      )
-                    ];
-                  },
-                ),
+                              ),
+                            ],
+                          )),
+                      title: TitleWidget(
+                        padding: EdgeInsets.fromLTRB(2.0.w, 0.0, 1.0.w, 0.0),
+                        fontsize: 10.0.sp,
+                      ),
+                    )
+                  ];
+                },
               ),
             ),
           )
