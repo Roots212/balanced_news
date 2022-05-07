@@ -7,7 +7,6 @@ import 'package:balanced_news/src/presentation/screens/auth/sign_in_screen.dart'
 import 'package:balanced_news/src/presentation/screens/news_screens/news_home_screen.dart';
 import 'package:balanced_news/src/presentation/utils/colors.dart';
 import 'package:balanced_news/src/presentation/widgets/title_widget.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -46,13 +45,10 @@ class _SplashScreenState extends State<SplashScreen> {
                         ))));
           });
         } else if (state is Unauthenticated) {
+          print('object');
           Future.delayed(const Duration(milliseconds: 200)).then((value) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) => SignInScreen(
-                          userRepository: userRepository,
-                        ))));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: ((context) => SignInScreen())));
           });
         }
       },

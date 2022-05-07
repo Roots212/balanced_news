@@ -2,6 +2,7 @@ import 'package:balanced_news/bloc/auth_bloc/authentication_bloc.dart';
 import 'package:balanced_news/bloc/login_bloc/bloc/login_bloc.dart';
 import 'package:balanced_news/cubit/org_data/orgdata_cubit.dart';
 import 'package:balanced_news/cubit/search/searchnews_cubit.dart';
+import 'package:balanced_news/src/presentation/screens/auth/sign_in_screen.dart';
 import 'package:balanced_news/src/presentation/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ class _AppStateState extends State<AppState> {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
+          
             home: const SplashScreen());
       }),
     );

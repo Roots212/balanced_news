@@ -3,7 +3,6 @@
 import 'package:balanced_news/src/data/repository/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -44,8 +43,11 @@ class AuthenticationBloc
   }
 
   Future<void> _mapLoggedOutToState(
-      LoggedOut authenticationEvent, Emitter<AuthenticationState> emit) async {
-    emit(Unauthenticated());
+      LoggedOut authenticationEvent, Emitter emit) async {
     userRepository.signOut();
+    print('logout');
+
+    emit(Unauthenticated());
+    
   }
 }

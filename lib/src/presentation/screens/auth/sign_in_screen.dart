@@ -16,9 +16,9 @@ import 'package:sizer/sizer.dart';
 import '../../utils/colors.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({Key? key, required this.userRepository})
+  const SignInScreen({Key? key})
       : super(key: key);
-  final UserRepository userRepository;
+
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -26,6 +26,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
+    final UserRepository userRepository=UserRepository();
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
