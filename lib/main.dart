@@ -12,7 +12,12 @@ import 'src/data/repository/user_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyDe6bcUE0VdJ2wAOIq3E2FCktu6A_9ypn0",
+          appId: "1:565320710236:android:176d42dac7b1eaafb30e99",
+          messagingSenderId: "",
+          projectId: 'balanced-news-735de'));
   runApp(const AppState());
 }
 

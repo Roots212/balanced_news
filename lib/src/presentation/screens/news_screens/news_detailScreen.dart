@@ -3,9 +3,11 @@
 import 'dart:io';
 
 import 'package:balanced_news/src/presentation/utils/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:html' as html;
 
 class NewsDetailPage extends StatefulWidget {
   final String content;
@@ -45,27 +47,31 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: CustomColors.activeColor,
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                enableDrag: false,
-                builder: (BuildContext context) {
-                  return SafeArea(
-                    child: Scaffold(
-                      appBar: AppBar(
-                        backgroundColor: CustomColors.backGroundColor,
-                      ),
-                      body: SizedBox(
-                        height: 80.0.h,
-                        child: WebView(
-                          javascriptMode: JavascriptMode.disabled,
-                          initialUrl: widget.url,
-                        ),
-                      ),
-                    ),
-                  );
-                });
-          },
+          onPressed: kIsWeb
+              ? () {
+                  html.window.open(widget.url, "_blank");
+                }
+              : () {
+                  showModalBottomSheet(
+                      context: context,
+                      enableDrag: false,
+                      builder: (BuildContext context) {
+                        return SafeArea(
+                          child: Scaffold(
+                            appBar: AppBar(
+                              backgroundColor: CustomColors.backGroundColor,
+                            ),
+                            body: SizedBox(
+                              height: 80.0.h,
+                              child: WebView(
+                                javascriptMode: JavascriptMode.disabled,
+                                initialUrl: widget.url,
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                },
           label: Text(
             'Full news',
             style: TextStyle(

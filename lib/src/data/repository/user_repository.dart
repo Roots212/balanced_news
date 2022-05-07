@@ -9,7 +9,10 @@ class UserRepository {
 
   UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignin ?? GoogleSignIn();
+        _googleSignIn = googleSignin ??
+            GoogleSignIn(
+                clientId:
+                    '565320710236-k56k2q2mdkb9sa0dn7co57mbieq91vc4.apps.googleusercontent.com');
 
   Future<User> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await _googleSignIn!.signIn();
