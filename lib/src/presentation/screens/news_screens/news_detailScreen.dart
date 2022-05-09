@@ -5,8 +5,10 @@ import 'dart:io';
 import 'package:balanced_news/src/presentation/utils/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 class NewsDetailPage extends StatefulWidget {
   final String content;
   final String title;
@@ -46,8 +48,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
       floatingActionButton: FloatingActionButton.extended(
           backgroundColor: CustomColors.activeColor,
           onPressed: kIsWeb
-              ? () {
-                }
+              ? () {}
               : () {
                   showModalBottomSheet(
                       context: context,
@@ -82,6 +83,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
           child: Icon(Icons.close_rounded,
               color: CustomColors.activeColor, size: 25.0.sp),
         ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Share.share(widget.url);
+            },
+            child: Icon(Icons.share_rounded,
+                color: CustomColors.activeColor, size: 25.0.sp),
+          ),
+        ],
         title: Container(),
         backgroundColor: Colors.transparent,
         elevation: 0.0,

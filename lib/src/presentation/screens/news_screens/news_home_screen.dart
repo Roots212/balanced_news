@@ -172,7 +172,7 @@ class _NewsHomeScreenState extends State<NewsHomeScreen> {
                           )),
                       title: TitleWidget(
                         padding: EdgeInsets.fromLTRB(2.0.w, 0.0, 1.0.w, 0.0),
-                        fontsize: 10.0.sp,
+                        fontsize: 9.0.sp,
                       ),
                     )
                   ];
